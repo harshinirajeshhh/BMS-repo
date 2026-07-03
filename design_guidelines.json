@@ -1,0 +1,129 @@
+{
+  "theme": "dark",
+  "archetype": "4 (Swiss & High-Contrast) + 7 (Electric & Neon)",
+  "typography": {
+    "headings": {
+      "fontFamily": "Outfit, sans-serif",
+      "weights": [400, 700],
+      "classes": "font-sans tracking-tighter"
+    },
+    "body": {
+      "fontFamily": "IBM Plex Sans, sans-serif",
+      "weights": [400, 500],
+      "classes": "font-sans leading-relaxed"
+    },
+    "mono": {
+      "fontFamily": "JetBrains Mono, monospace",
+      "weights": [400],
+      "classes": "font-mono text-xs md:text-sm tracking-[0.2em] uppercase"
+    }
+  },
+  "colors": {
+    "background": {
+      "base": "#06080D",
+      "surface": "#07090F",
+      "card": "rgba(255, 255, 255, 0.04)"
+    },
+    "border": {
+      "default": "rgba(255, 255, 255, 0.08)",
+      "glass": "rgba(255, 255, 255, 0.12)"
+    },
+    "brand": {
+      "primary": "#2DD4BF",
+      "secondary": "#3B82F6",
+      "accent": "#8B5CF6",
+      "highlight": "#00E5FF"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "muted": "#9CA3AF"
+    }
+  },
+  "surfaces": {
+    "glass": "bg-[#07090F]/60 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]",
+    "card": "bg-white/[0.04] border border-white/[0.08] rounded-[24px]",
+    "glow": "shadow-[0_0_30px_rgba(45,212,191,0.15)]",
+    "panel": "bg-[#07090F] border border-white/10 rounded-[28px]"
+  },
+  "layout": {
+    "spacing": {
+      "section_y": "py-24 md:py-32",
+      "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+      "grid_gap": "gap-6 md:gap-8"
+    },
+    "border_radius": {
+      "standard": "rounded-[24px]",
+      "large": "rounded-[28px]",
+      "small": "rounded-xl"
+    }
+  },
+  "sections": [
+    {
+      "name": "Navigation & Live Ticker",
+      "guidelines": "Floating Crystal Glass navbar (`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-full`). Include a Bloomberg-terminal style marquee ticker using `JetBrains Mono` showing live building operations data (e.g., 'HVAC ZONE 4: NOMINAL', 'ENERGY USAGE: -12%')."
+    },
+    {
+      "name": "Hero 3D Immersive",
+      "guidelines": "Full viewport height. Background `#06080D` with an absolute positioned blueprint overlay (opacity 10%). Centerpiece: A react-three-fiber `<Canvas>` containing a glowing wireframe/smart building model. Overlapping the canvas: Floating glassmorphic KPI cards (`glass` surface) displaying real-time mocked stats. Primary CTA 'Request Demo' wired to backend, using a cyan (`#00E5FF`) subtle drop shadow/glow."
+    },
+    {
+      "name": "Control Center Preview",
+      "guidelines": "Massive `rounded-[28px]` container showcasing the platform dashboard. Use the 'Server Room' image heavily darkened as a background texture. Overlay dashboard UI elements (Recharts charts, data tables) floating in 3D perspective using Framer Motion."
+    },
+    {
+      "name": "Bento Grid Features",
+      "guidelines": "Asymmetrical 12-column bento grid. Items use `card` surface. Modules: HVAC, Fire Detection, CCTV, Access Control, Lighting, Energy Analytics. Apply generous padding (`p-8`). Add hover states that introduce a subtle cyan or teal glow."
+    },
+    {
+      "name": "AI Workflow & Integrations Orbit",
+      "guidelines": "Workflow: Horizontal timeline connecting Sensor → AI Engine → Decision → Action. Use animated dashed SVG lines. Integrations: Central BMS core with orbiting nodes representing BACnet, Modbus, Microsoft, SAP, AWS, IoT. Implement smooth continuous rotation via Framer Motion."
+    },
+    {
+      "name": "Security & Analytics Comparison",
+      "guidelines": "Floating cards for Security (RBAC, Zero Trust, SOC2). High-contrast comparison table (Traditional vs Our Platform) with sharp borders, using Teal for positive ticks and Muted for negative/traditional traits."
+    },
+    {
+      "name": "Footer & CTA",
+      "guidelines": "Immersive 'Start Building' section. Massive text scale (`text-5xl md:text-7xl+`), using `Outfit` tracking-tighter. Simple minimal footer with grid borders."
+    }
+  ],
+  "libraries": {
+    "required": [
+      "framer-motion",
+      "lucide-react",
+      "@phosphor-icons/react",
+      "@react-three/fiber",
+      "@react-three/drei",
+      "three",
+      "react-fast-marquee",
+      "recharts"
+    ],
+    "install_command": "npm install framer-motion lucide-react @phosphor-icons/react @react-three/fiber @react-three/drei three react-fast-marquee recharts clsx tailwind-merge"
+  },
+  "media": {
+    "images": [
+      {
+        "category": "background_texture",
+        "description": "Blueprint of a building",
+        "url": "https://images.unsplash.com/photo-1721244654392-9c912a6eb236?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2ODl8MHwxfHNlYXJjaHwzfHxkYXJrJTIwbW9kZXJuJTIwYXJjaGl0ZWN0dXJlJTIwYnVpbGRpbmclMjBibHVlcHJpbnR8ZW58MHx8fHwxNzgyMTYxOTA2fDA&ixlib=rb-4.1.0&q=85"
+      },
+      {
+        "category": "server_texture",
+        "description": "Server room neon blue dark",
+        "url": "https://images.pexels.com/photos/17323801/pexels-photo-17323801.jpeg"
+      }
+    ]
+  },
+  "testing": {
+    "guidelines": "All interactive elements MUST include a `data-testid` attribute using kebab-case and role-based naming (e.g., `data-testid='hero-cta-demo'`)."
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the dark mode palette. Do not use white backgrounds.",
+    "Use pure HTML+Tailwind for layout structure; apply Shadcn heavily customized with our `card` and `border` colors for interactive elements like Select, Dialog, or Forms.",
+    "The 3D hero visualization MUST be implemented using @react-three/fiber. Do not use a static image for the hero.",
+    "Ensure `data-testid` is added to all buttons, links, and form inputs.",
+    "Bento grid items must be direct children of the grid container to allow Tailwind grid spans to work correctly.",
+    "Avoid generic 'Inter' for headings. Apply `Outfit` for display and `IBM Plex Sans` for body text. Add standard <link> imports for these in index.html.",
+    "Do not use generic solid gradients. Use radial gradients or shadow glows to simulate ambient LED light."
+  ]
+}

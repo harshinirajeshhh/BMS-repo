@@ -36,7 +36,7 @@ export default function Benefits() {
               className="relative glass rounded-[24px] p-8 overflow-hidden hover-lift"
               data-testid={`benefit-${s.label.toLowerCase().replace(/\s|‑/g, "-")}`}
             >
-              <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full blur-3xl opacity-30" style={{ background: s.color }} />
+              <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full blur-3xl opacity-12" style={{ background: s.color }} />
               <div className="relative">
                 <div className="font-display font-semibold text-6xl lg:text-7xl tracking-tighter" style={{ color: s.color }}>{s.value}</div>
                 <div className="mt-3 font-display text-lg text-white">{s.label}</div>

@@ -26,19 +26,21 @@ body,
 
 body {
   margin: 0;
-  font-family: "IBM Plex Sans", "Inter", system-ui, -apple-system, sans-serif;
+  font-family: "Mona Sans", "Inter", system-ui, -apple-system, sans-serif;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #06080D;
   background-image:
-    radial-gradient(1200px 600px at 15% -10%, rgba(45, 212, 191, 0.10), transparent 60%),
-    radial-gradient(1000px 500px at 90% 10%, rgba(59, 130, 246, 0.10), transparent 60%),
-    radial-gradient(900px 500px at 50% 110%, rgba(139, 92, 246, 0.08), transparent 60%);
+    radial-gradient(1200px 600px at 15% -10%, rgba(45, 212, 191, 0.05), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(59, 130, 246, 0.05), transparent 60%),
+    radial-gradient(900px 500px at 50% 110%, rgba(139, 92, 246, 0.04), transparent 60%);
   background-attachment: fixed;
 }
 
 .font-display {
-  font-family: "Outfit", "IBM Plex Sans", sans-serif;
+  font-family: "Mona Sans", "Inter", sans-serif;
+  font-stretch: 110%;
   letter-spacing: -0.02em;
 }
 
@@ -79,15 +81,15 @@ body {
 }
 
 .glow-teal {
-  box-shadow: 0 0 40px rgba(45, 212, 191, 0.18), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 0 24px rgba(45, 212, 191, 0.10), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .glow-blue {
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.20), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.12), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .glow-cyan {
-  box-shadow: 0 0 45px rgba(0, 229, 255, 0.20), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 0 26px rgba(0, 229, 255, 0.12), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .hover-lift {
@@ -95,7 +97,7 @@ body {
 }
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(45, 212, 191, 0.14);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 24px rgba(45, 212, 191, 0.08);
 }
 
 .gradient-border {
@@ -108,7 +110,7 @@ body {
   inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(45,212,191,0.45), rgba(59,130,246,0.25) 40%, rgba(139,92,246,0.35));
+  background: linear-gradient(135deg, rgba(45,212,191,0.22), rgba(59,130,246,0.12) 40%, rgba(139,92,246,0.18));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;

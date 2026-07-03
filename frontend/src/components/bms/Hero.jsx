@@ -55,7 +55,7 @@ export default function Hero() {
             >
               Smarter Buildings.
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] via-[#00E5FF] to-[#3B82F6]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] via-[#7dd3fc] to-[#93c5fd]">
                 One Intelligent Platform.
               </span>
             </motion.h1>

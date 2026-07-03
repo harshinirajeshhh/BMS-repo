@@ -34,7 +34,7 @@ export default function Comparison() {
         >
           <span className="font-mono-ui text-[10px] text-[#2DD4BF]">— COMPARISON</span>
           <h2 className="mt-3 font-display text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight">
-            Traditional BMS vs <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-[#3B82F6]">BMS Platform</span>
+            Traditional BMS vs <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-[#7dd3fc]">BMS Platform</span>
           </h2>
         </motion.div>
 

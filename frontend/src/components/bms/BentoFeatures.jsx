@@ -32,7 +32,7 @@ const Card = ({ f, i }) => (
     className={`group relative glass rounded-[24px] p-6 hover-lift overflow-hidden ${f.span}`}
     data-testid={`feature-${f.key}`}
   >
-    <div className="absolute -top-24 -right-24 w-56 h-56 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition-opacity"
+    <div className="absolute -top-24 -right-24 w-56 h-56 rounded-full blur-3xl opacity-15 group-hover:opacity-30 transition-opacity"
       style={{ background: f.color }} />
     <div className="relative">
       <div className="flex items-center gap-3 mb-4">

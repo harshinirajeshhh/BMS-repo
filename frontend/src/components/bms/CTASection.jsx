@@ -11,7 +11,7 @@ export default function CTASection() {
         <div className="relative glass-strong gradient-border rounded-[28px] p-10 md:p-20 overflow-hidden text-center">
           <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full blur-3xl pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(45,212,191,0.25), transparent 60%)" }} />
+            style={{ background: "radial-gradient(circle, rgba(45,212,191,0.10), transparent 60%)" }} />
 
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -22,7 +22,7 @@ export default function CTASection() {
           >
             One Platform.
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] via-[#00E5FF] to-[#3B82F6]">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] via-[#7dd3fc] to-[#93c5fd]">
               Complete Building Intelligence.
             </span>
           </motion.h2>

@@ -7,6 +7,8 @@ import {
   Send, X, Lock, KeyRound, MoreHorizontal, FileText, Clock, MapPin, User, ScrollText,
   CheckCircle2, AlertTriangle, ArrowUpRight, Eye, ChevronRight, Loader2, ShieldCheck,
   Zap, PieChart as PieIcon, Play, Radio, Layers, ClipboardList, Wrench,
+  LayoutGrid, Activity, History, BellRing, Settings, FileBarChart, PanelLeftClose, PanelLeft,
+  MessageSquare, Check as CheckIcon, Paperclip,
 } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { toast } from "sonner";
@@ -226,13 +228,10 @@ function CameraManagement() {
   const actions = [
     { icon: Plus, label: "Add Camera", testid: "cam-add" },
     { icon: Layers, label: "Manage Cameras", testid: "cam-manage" },
-    { icon: Users, label: "Camera Groups", testid: "cam-groups" },
-    { icon: Sparkles, label: "AI Detection Profiles", testid: "cam-ai" },
   ];
   const stats = [
     { l: "Total", v: 248, c: "#fff" }, { l: "Online", v: 231, c: "#2DD4BF" },
     { l: "Offline", v: 6, c: "#f43f5e" }, { l: "Recording", v: 217, c: "#7dd3fc" },
-    { l: "AI Enabled", v: 184, c: "#a78bfa" },
   ];
   return (
     <div className="glass rounded-[16px] p-5" data-testid="camera-management">
@@ -253,7 +252,7 @@ function CameraManagement() {
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-5 gap-2 pt-4 border-t border-white/8">
+      <div className="grid grid-cols-4 gap-2 pt-4 border-t border-white/8">
         {stats.map((s) => (
           <div key={s.l}>
             <div className="font-display text-xl font-semibold" style={{ color: s.c }}>{s.v}</div>
@@ -270,53 +269,41 @@ function LiveCameras() {
     <div data-testid="live-cameras">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <div className="font-display text-lg font-semibold">Live Camera Monitoring</div>
-          <div className="font-mono-ui text-[10px] text-white/45">4 FEEDS · REAL-TIME AI</div>
+          <div className="font-display text-base font-semibold">Cameras Needing Attention</div>
+          <div className="font-mono-ui text-[10px] text-white/45">4 FLAGGED · QUICK GLANCE</div>
         </div>
         <button className="text-xs text-[#2DD4BF] hover:text-white transition inline-flex items-center gap-1" data-testid="view-all-cameras">
-          View all <ArrowRight size={12} />
+          Live Monitoring <ArrowRight size={12} />
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 overflow-x-auto">
         {CAMERAS.map((c) => (
-          <motion.div
-            key={c.id}
-            whileHover={{ y: -2 }}
-            className="group relative rounded-[16px] overflow-hidden border border-white/8 bg-black hover:border-[#2DD4BF]/40 transition cursor-pointer"
-            data-testid={`camera-card-${c.id.toLowerCase()}`}
-          >
-            <div className="relative aspect-[16/10] overflow-hidden">
+          <motion.div key={c.id} whileHover={{ y: -2 }}
+            className="group glass rounded-[14px] overflow-hidden hover:border-[#2DD4BF]/40 transition cursor-pointer flex flex-col"
+            data-testid={`camera-card-${c.id.toLowerCase()}`}>
+            <div className="relative aspect-[16/9] overflow-hidden">
               <img src={c.img} alt={c.id} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-              <div className="absolute top-3 left-3 flex items-center gap-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute top-2 left-2 flex items-center gap-1.5">
                 {c.live ? (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#f43f5e]/25 border border-[#f43f5e]/50 text-[10px] font-mono-ui text-[#f43f5e]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#f43f5e] pulse-dot" /> LIVE
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#f43f5e]/25 border border-[#f43f5e]/50 text-[9px] font-mono-ui text-[#f43f5e]">
+                    <span className="w-1 h-1 rounded-full bg-[#f43f5e] pulse-dot" /> LIVE
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 text-[10px] font-mono-ui text-white/70">
-                    <WifiOff size={10} /> OFFLINE
-                  </span>
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-white/10 text-[9px] font-mono-ui text-white/70">OFFLINE</span>
                 )}
-                <span className="px-2 py-1 rounded-full bg-black/60 border border-white/12 text-[10px] font-mono-ui text-white/85">{c.id}</span>
-              </div>
-              <div className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-black/60 border border-white/12 text-[10px] font-mono-ui text-[#a78bfa]">
-                <Sparkles size={10} /> {c.ai}
-              </div>
-              <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
-                <div>
-                  <div className="text-[13px] font-medium text-white">{c.alert}</div>
-                  <div className="text-[11px] text-white/60 flex items-center gap-1.5 mt-0.5"><MapPin size={10} /> {c.zone}</div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <SeverityBadge level={c.severity} />
-                </div>
+                <span className="px-1.5 py-0.5 rounded-md bg-black/60 text-[9px] font-mono-ui text-white/90">{c.id}</span>
               </div>
             </div>
-            <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.02]">
-              <span className="text-[11px] text-white/55 inline-flex items-center gap-1.5"><Bell size={10} /> {c.count} active alert{c.count !== 1 ? "s" : ""}</span>
-              <button className="text-[11px] text-[#2DD4BF] inline-flex items-center gap-1 hover:text-white transition" data-testid={`view-live-${c.id.toLowerCase()}`}>
-                <Play size={10} /> View live
+            <div className="p-3 flex-1 flex flex-col gap-1.5">
+              <div className="text-[12px] font-medium text-white leading-tight">{c.alert}</div>
+              <div className="text-[10px] text-white/50 flex items-center gap-1"><MapPin size={9} /> {c.zone}</div>
+              <div className="flex items-center justify-between mt-1">
+                <SeverityBadge level={c.severity} />
+                <span className="text-[10px] text-white/55">{c.count} alert{c.count !== 1 ? "s" : ""}</span>
+              </div>
+              <button className="mt-1 text-[11px] text-[#2DD4BF] inline-flex items-center gap-1 hover:text-white transition self-start" data-testid={`view-live-${c.id.toLowerCase()}`}>
+                <Play size={10} /> View Live →
               </button>
             </div>
           </motion.div>
@@ -326,63 +313,171 @@ function LiveCameras() {
   );
 }
 
-function AIAssistant() {
+function AIAssistantHidden() { return null; }
+
+
+function AskAILauncher({ onOpen }) {
+  return (
+    <button onClick={onOpen} data-testid="ask-ai-button" className="w-full glass-strong gradient-border rounded-[16px] p-5 flex items-center gap-4 hover:bg-white/[0.05] transition group text-left">
+      <span className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6] flex items-center justify-center shrink-0">
+        <Sparkles size={20} className="text-[#06080D]" />
+      </span>
+      <div className="flex-1 min-w-0">
+        <div className="font-display text-sm font-semibold flex items-center gap-2">Ask AI Security Assistant <span className="font-mono-ui text-[9px] text-[#2DD4BF]">● ONLINE</span></div>
+        <div className="text-xs text-white/55 mt-0.5 truncate">Summaries, shift reports, incident context — Claude 4.5</div>
+      </div>
+      <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[10px] font-mono-ui text-white/70 group-hover:bg-white/10 transition">Open<ArrowUpRight size={10} /></span>
+    </button>
+  );
+}
+
+function AIAssistantPanel({ open, onClose }) {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState([
     { role: "ai", text: "Good afternoon Alex. 7 critical incidents today — Lobby · North Tower needs immediate review. Want a shift briefing?" },
   ]);
   const send = (text) => {
     if (!text) return;
-    setMessages((m) => [...m, { role: "user", text }, { role: "ai", text: `Analyzing "${text}"… I found 3 relevant patterns across CAM-04, CAM-09 and CAM-11. Would you like the full report?` }]);
+    setMessages((m) => [...m, { role: "user", text }, { role: "ai", text: `Analyzing "${text}"… I found 3 relevant patterns across CAM-04, CAM-09 and CAM-11.` }]);
     setPrompt("");
   };
   return (
-    <div className="glass-strong gradient-border rounded-[16px] p-5 flex flex-col" data-testid="ai-assistant">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2.5">
-          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6] flex items-center justify-center">
-            <Sparkles size={14} className="text-[#06080D]" />
-          </span>
-          <div>
-            <div className="font-display text-sm font-semibold">AI Security Assistant</div>
-            <div className="font-mono-ui text-[9px] text-[#2DD4BF]">● ONLINE · CLAUDE 4.5</div>
-          </div>
-        </div>
-      </div>
-      <div className="flex-1 space-y-2.5 mb-4 max-h-52 overflow-y-auto pr-1">
-        {messages.map((m, i) => (
-          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${m.role === "user" ? "bg-[#2DD4BF] text-[#06080D]" : "bg-white/[0.04] border border-white/8 text-white/85"}`}>
-              {m.text}
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
+          <motion.aside initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ ease: [0.2, 0.7, 0.3, 1], duration: 0.4 }}
+            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-[#0a0d14] border-l border-white/10 z-50 flex flex-col" data-testid="ai-panel">
+            <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6] flex items-center justify-center"><Sparkles size={14} className="text-[#06080D]" /></span>
+                <div>
+                  <div className="font-display text-sm font-semibold">AI Security Assistant</div>
+                  <div className="font-mono-ui text-[9px] text-[#2DD4BF]">● CLAUDE 4.5</div>
+                </div>
+              </div>
+              <button onClick={onClose} data-testid="ai-panel-close" className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center"><X size={14} /></button>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {AI_SUGGESTIONS.map((s) => (
-          <button
-            key={s}
-            onClick={() => send(s)}
-            data-testid={`ai-suggest-${s.split(" ")[0].toLowerCase()}`}
-            className="px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/8 text-[10px] text-white/70 hover:bg-white/[0.07] hover:text-white transition"
-          >
-            {s}
-          </button>
-        ))}
-      </div>
-      <form onSubmit={(e) => { e.preventDefault(); send(prompt); }} className="relative">
-        <input
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Ask anything about your security operations…"
-          className="w-full pl-4 pr-11 py-3 rounded-xl bg-white/[0.03] border border-white/8 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-[#2DD4BF]/50 focus:ring-2 focus:ring-[#2DD4BF]/15 transition"
-          data-testid="ai-prompt-input"
-        />
-        <button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#2DD4BF] text-[#06080D] flex items-center justify-center hover:brightness-110 transition" data-testid="ai-send">
-          <Send size={12} />
+            <div className="flex-1 overflow-y-auto p-6 space-y-3">
+              {messages.map((m, i) => (
+                <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${m.role === "user" ? "bg-[#2DD4BF] text-[#06080D]" : "bg-white/[0.04] border border-white/8 text-white/85"}`}>{m.text}</div>
+                </div>
+              ))}
+            </div>
+            <div className="px-6 pb-3 flex flex-wrap gap-1.5">
+              {AI_SUGGESTIONS.map((s) => (
+                <button key={s} onClick={() => send(s)} className="px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/8 text-[10px] text-white/70 hover:bg-white/[0.07] hover:text-white transition">{s}</button>
+              ))}
+            </div>
+            <form onSubmit={(e) => { e.preventDefault(); send(prompt); }} className="px-6 pb-6 relative">
+              <input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Ask anything…" data-testid="ai-panel-input" className="w-full pl-4 pr-11 py-3 rounded-xl bg-white/[0.03] border border-white/8 text-sm focus:outline-none focus:border-[#2DD4BF]/50" />
+              <button type="submit" className="absolute right-8 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#2DD4BF] text-[#06080D] flex items-center justify-center"><Send size={12} /></button>
+            </form>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Sidebar({ collapsed, setCollapsed }) {
+  const items = [
+    { icon: LayoutGrid, label: "Overview", active: true, testid: "sidebar-overview" },
+    { icon: Video, label: "Live Monitoring", testid: "sidebar-live" },
+    { icon: History, label: "Violation History", testid: "sidebar-violations" },
+    { icon: BellRing, label: "Camera Alerts", testid: "sidebar-alerts" },
+    { icon: Camera, label: "Camera Management", testid: "sidebar-cameras" },
+    { icon: Users, label: "User Management", testid: "sidebar-users" },
+    { icon: FileBarChart, label: "Reports", testid: "sidebar-reports" },
+    { icon: Settings, label: "Settings", testid: "sidebar-settings" },
+  ];
+  return (
+    <aside className={`fixed left-0 top-14 bottom-0 z-30 border-r border-white/8 bg-[#07090F]/95 backdrop-blur-xl transition-all duration-300 ${collapsed ? "w-16" : "w-60"}`} data-testid="sidebar">
+      <div className="p-3 flex flex-col h-full">
+        <button onClick={() => setCollapsed(!collapsed)} data-testid="sidebar-toggle" className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/8 hover:bg-white/[0.06] flex items-center justify-center mb-3 self-end">
+          {collapsed ? <PanelLeft size={14} /> : <PanelLeftClose size={14} />}
         </button>
-      </form>
-    </div>
+        <nav className="flex-1 space-y-1">
+          {items.map((it) => (
+            <button key={it.label} data-testid={it.testid}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition group relative ${it.active ? "bg-[#2DD4BF]/10 text-white" : "text-white/60 hover:text-white hover:bg-white/[0.04]"}`}>
+              {it.active && <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r bg-[#2DD4BF]" />}
+              <it.icon size={16} className={it.active ? "text-[#2DD4BF]" : "text-white/50 group-hover:text-white/80"} />
+              {!collapsed && <span className="truncate">{it.label}</span>}
+            </button>
+          ))}
+        </nav>
+        {!collapsed && (
+          <div className="glass rounded-xl p-3 text-[10px] text-white/45 font-mono-ui">
+            <div className="text-[#2DD4BF]">● SYSTEM HEALTHY</div>
+            <div className="mt-1">248 CAMS · 4 SITES</div>
+          </div>
+        )}
+      </div>
+    </aside>
+  );
+}
+
+function NewIncidentDrawer({ open, onClose }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" />
+          <motion.aside initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ ease: [0.2, 0.7, 0.3, 1], duration: 0.4 }}
+            className="fixed right-0 top-0 bottom-0 w-full max-w-xl bg-[#0a0d14] border-l border-white/10 z-50 overflow-y-auto" data-testid="new-incident-drawer">
+            <div className="sticky top-0 z-10 bg-[#0a0d14]/95 backdrop-blur px-6 py-4 flex items-center justify-between border-b border-white/8">
+              <div>
+                <div className="font-mono-ui text-[10px] text-white/40">NEW INCIDENT</div>
+                <div className="font-display text-lg font-semibold mt-0.5">Create incident report</div>
+              </div>
+              <button onClick={onClose} data-testid="new-incident-close" className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center"><X size={14} /></button>
+            </div>
+            <div className="p-6 space-y-4">
+              {[
+                ["Camera", ["CAM-04", "CAM-09", "CAM-11", "CAM-15"]],
+                ["Building", ["Tower A", "Tower B"]],
+                ["Floor", ["L1", "L2", "L3"]],
+                ["Zone", ["Lobby", "Server Room", "Parking"]],
+                ["Incident Type", ["Unauthorized Access", "Motion", "Tailgating", "PPE Violation"]],
+                ["Severity", ["Critical", "High", "Medium", "Low"]],
+                ["Assigned To", ["S. Alvarez", "M. Chen", "R. Ohta"]],
+                ["Priority", ["P0", "P1", "P2"]],
+              ].map(([label, opts]) => (
+                <label key={label} className="block">
+                  <span className="font-mono-ui text-[10px] text-white/45">{label.toUpperCase()}</span>
+                  <select data-testid={`ni-${label.toLowerCase().replace(/\s/g,"-")}`} className="mt-1.5 w-full bg-white/[0.03] border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2DD4BF]/50">
+                    <option value="">Select {label}…</option>
+                    {opts.map((o) => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </label>
+              ))}
+              <label className="block">
+                <span className="font-mono-ui text-[10px] text-white/45">DUE DATE</span>
+                <input type="date" data-testid="ni-due" className="mt-1.5 w-full bg-white/[0.03] border border-white/8 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#2DD4BF]/50" />
+              </label>
+              <label className="block">
+                <span className="font-mono-ui text-[10px] text-white/45">DESCRIPTION</span>
+                <textarea rows={3} data-testid="ni-description" className="mt-1.5 w-full bg-white/[0.03] border border-white/8 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:border-[#2DD4BF]/50" placeholder="Describe what happened…" />
+              </label>
+              <label className="block">
+                <span className="font-mono-ui text-[10px] text-white/45">NOTES</span>
+                <textarea rows={2} data-testid="ni-notes" className="mt-1.5 w-full bg-white/[0.03] border border-white/8 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:border-[#2DD4BF]/50" />
+              </label>
+              <button data-testid="ni-attach" className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.03] border border-dashed border-white/15 text-sm text-white/70 hover:bg-white/[0.05] transition">
+                <Paperclip size={12} /> Attach evidence
+              </button>
+              <div className="flex items-center gap-2 pt-2">
+                <button onClick={onClose} data-testid="ni-cancel" className="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-sm">Cancel</button>
+                <button data-testid="ni-draft" className="flex-1 py-3 rounded-xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.06] text-sm">Save Draft</button>
+                <button onClick={() => { toast.success("Incident created"); onClose(); }} data-testid="ni-create" className="flex-1 py-3 rounded-xl bg-[#2DD4BF] text-[#06080D] font-medium hover:brightness-110 text-sm">Create Incident</button>
+              </div>
+            </div>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -568,6 +663,8 @@ function Notifications() {
 
 /* --------------------------- Drawer + Resolve dialog --------------------------- */
 function IncidentDrawer({ incident, onClose, onResolve }) {
+  const [confirmed, setConfirmed] = useState(false);
+  React.useEffect(() => { setConfirmed(false); }, [incident?.id]);
   return (
     <AnimatePresence>
       {incident && (
@@ -630,7 +727,12 @@ function IncidentDrawer({ incident, onClose, onResolve }) {
 
               <textarea placeholder="Add investigation note…" rows={2} className="w-full rounded-xl bg-white/[0.03] border border-white/8 p-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-[#2DD4BF]/50 resize-none" data-testid="drawer-note" />
 
-              <button onClick={onResolve} disabled={incident.status === "Resolved"} className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#2DD4BF] to-[#22c1a0] text-[#06080D] font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110 transition" data-testid="drawer-resolve">
+              <label className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/8 cursor-pointer hover:bg-white/[0.04] transition" data-testid="drawer-confirm-label">
+                <input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} data-testid="drawer-confirm-checkbox" className="mt-0.5 w-4 h-4 rounded accent-[#2DD4BF]" />
+                <span className="text-xs text-white/75 leading-relaxed">I confirm that I have reviewed the evidence and verified this incident.</span>
+              </label>
+
+              <button onClick={onResolve} disabled={!confirmed || incident.status === "Resolved"} className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#2DD4BF] to-[#22c1a0] text-[#06080D] font-medium disabled:opacity-30 disabled:cursor-not-allowed hover:brightness-110 transition" data-testid="drawer-resolve">
                 <ShieldCheck size={14} /> {incident.status === "Resolved" ? "Already Resolved" : "Resolve Incident (Super Admin)"}
               </button>
             </div>
@@ -738,62 +840,62 @@ function ResolveDialog({ open, onClose, onDone }) {
 export default function OverviewDashboard() {
   const [selected, setSelected] = useState(null);
   const [resolveOpen, setResolveOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [newIncOpen, setNewIncOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#06080D] text-white" data-testid="overview-dashboard">
       <TopBar />
-      <main className="max-w-[1500px] mx-auto px-6 py-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <div className="font-mono-ui text-[10px] text-[#2DD4BF]">— OVERVIEW</div>
-            <h1 className="mt-1.5 font-display text-3xl md:text-4xl font-semibold tracking-tight">Security Operations Command</h1>
-            <p className="mt-1 text-sm text-white/55">Live posture across 4 sites · 23 buildings · 248 cameras</p>
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <main className={`transition-all duration-300 ${collapsed ? "pl-16" : "pl-60"}`}>
+        <div className="max-w-[1440px] mx-auto px-8 py-8 space-y-8">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <div className="font-mono-ui text-[10px] text-[#2DD4BF]">— OVERVIEW</div>
+              <h1 className="mt-1.5 font-display text-3xl md:text-4xl font-semibold tracking-tight">Security Operations Command</h1>
+              <p className="mt-1 text-sm text-white/55">Live posture across 4 sites · 23 buildings · 248 cameras</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/8 hover:bg-white/[0.06] text-xs" data-testid="export-report">
+                <ClipboardList size={12} /> Export shift report
+              </button>
+              <button onClick={() => setNewIncOpen(true)} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#2DD4BF] text-[#06080D] font-medium text-xs hover:brightness-110" data-testid="new-incident">
+                <Plus size={12} /> New incident
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/8 hover:bg-white/[0.06] text-xs" data-testid="export-report">
-              <ClipboardList size={12} /> Export shift report
-            </button>
-            <button className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#2DD4BF] text-[#06080D] font-medium text-xs hover:brightness-110" data-testid="new-incident">
-              <Plus size={12} /> New incident
-            </button>
+
+          <FilterBar />
+          <KPIHero />
+
+          {/* Ask AI + Camera Management + Cameras row */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <div className="lg:col-span-4 space-y-5">
+              <AskAILauncher onOpen={() => setAiOpen(true)} />
+              <CameraManagement />
+            </div>
+            <div className="lg:col-span-8"><LiveCameras /></div>
           </div>
-        </div>
 
-        <FilterBar />
-        <KPIHero />
+          {/* Recent Incidents (moved above Analytics) */}
+          <IncidentsTable onOpen={setSelected} />
 
-        {/* Camera management + Live cameras */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="lg:col-span-4"><CameraManagement /></div>
-          <div className="lg:col-span-8"><LiveCameras /></div>
-        </div>
+          {/* Analytics — 3 in one row */}
+          <AnalyticsSnapshot />
 
-        {/* AI assistant + Analytics row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="lg:col-span-5"><AIAssistant /></div>
-          <div className="lg:col-span-7">
-            <AnalyticsSnapshot />
+          {/* Notifications */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <div className="lg:col-span-12"><Notifications /></div>
           </div>
-        </div>
-
-        {/* Incidents + Notifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="lg:col-span-8"><IncidentsTable onOpen={setSelected} /></div>
-          <div className="lg:col-span-4"><Notifications /></div>
         </div>
       </main>
 
-      <IncidentDrawer
-        incident={selected}
-        onClose={() => setSelected(null)}
-        onResolve={() => setResolveOpen(true)}
-      />
-      <ResolveDialog
-        open={resolveOpen}
-        onClose={() => setResolveOpen(false)}
-        onDone={() => { setResolveOpen(false); setSelected(null); }}
-      />
+      <IncidentDrawer incident={selected} onClose={() => setSelected(null)} onResolve={() => setResolveOpen(true)} />
+      <ResolveDialog open={resolveOpen} onClose={() => setResolveOpen(false)} onDone={() => { setResolveOpen(false); setSelected(null); }} />
+      <AIAssistantPanel open={aiOpen} onClose={() => setAiOpen(false)} />
+      <NewIncidentDrawer open={newIncOpen} onClose={() => setNewIncOpen(false)} />
     </div>
   );
 }

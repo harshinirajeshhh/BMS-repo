@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Building2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useDemoDialog } from "../../pages/BMSLanding";
 
 const NAV = [
@@ -41,10 +42,17 @@ export default function Navbar() {
           ))}
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            to="/dashboard"
+            data-testid="nav-open-dashboard"
+            className="hidden sm:inline-flex px-4 py-2 rounded-full text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+          >
+            Live Dashboard
+          </Link>
           <button
             onClick={() => open("sales")}
             data-testid="nav-contact-sales"
-            className="hidden sm:inline-flex px-4 py-2 rounded-full text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+            className="hidden md:inline-flex px-4 py-2 rounded-full text-sm text-white/80 hover:text-white hover:bg-white/5 transition-colors"
           >
             Contact Sales
           </button>

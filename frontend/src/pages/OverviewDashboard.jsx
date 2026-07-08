@@ -8,10 +8,12 @@ import {
   CheckCircle2, AlertTriangle, ArrowUpRight, Eye, ChevronRight, Loader2, ShieldCheck,
   Zap, PieChart as PieIcon, Play, Radio, Layers, ClipboardList, Wrench,
   LayoutGrid, Activity, History, BellRing, Settings, FileBarChart, PanelLeftClose, PanelLeft,
-  MessageSquare, Check as CheckIcon, Paperclip,
+  MessageSquare, Check as CheckIcon, Paperclip, Sun, Moon,
 } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { toast } from "sonner";
+import BMSLogo from "../components/BMSLogo";
+import { useTheme } from "../lib/theme";
 
 /* ------------------------------ Reusable pieces ----------------------------- */
 const Chip = ({ label, value, onClick }) => (
@@ -45,12 +47,36 @@ const SeverityBadge = ({ level }) => {
 const StatusPill = ({ status }) => {
   const map = {
     Open: "text-[#f59e0b] bg-[#f59e0b]/10",
+    Ongoing: "text-[#7dd3fc] bg-[#7dd3fc]/10",
     Investigating: "text-[#7dd3fc] bg-[#7dd3fc]/10",
     Resolved: "text-[#2DD4BF] bg-[#2DD4BF]/10",
     Critical: "text-[#f43f5e] bg-[#f43f5e]/10",
   };
   return <span className={`px-2.5 py-1 rounded-full text-[10px] font-medium ${map[status] || "text-white/60 bg-white/5"}`}>{status}</span>;
 };
+
+const STATUS_OPTIONS = ["Open", "Ongoing", "Resolved"];
+const STATUS_COLORS = { Open: "#f59e0b", Ongoing: "#7dd3fc", Resolved: "#2DD4BF" };
+
+function InlineStatusSelect({ value, onChange, id }) {
+  const normalized = value === "Investigating" ? "Ongoing" : value;
+  const color = STATUS_COLORS[normalized] || "#94a3b8";
+  return (
+    <div className="relative inline-block" onClick={(e) => e.stopPropagation()}>
+      <select
+        value={normalized}
+        onChange={(e) => onChange(e.target.value)}
+        data-testid={`status-select-${id}`}
+        className="appearance-none pl-6 pr-6 py-1 rounded-full text-[10px] font-medium bg-white/[0.04] border cursor-pointer hover:bg-white/[0.08] transition focus:outline-none focus:ring-2 focus:ring-[#2DD4BF]/30"
+        style={{ color, borderColor: `${color}40` }}
+      >
+        {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
+      </select>
+      <span className="absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full pointer-events-none" style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
+      <ChevronDown size={10} className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color }} />
+    </div>
+  );
+}
 
 /* ---------------------------------- Data ---------------------------------- */
 const KPIS = [
@@ -123,16 +149,48 @@ const AI_SUGGESTIONS = [
 ];
 
 /* ------------------------------ Sub components ----------------------------- */
+function NotifPopover({ open, onClose }) {
+  if (!open) return null;
+  return (
+    <>
+      <div className="fixed inset-0 z-40" onClick={onClose} />
+      <div className="absolute right-0 mt-2 w-96 glass-strong gradient-border rounded-2xl overflow-hidden z-50 shadow-2xl" data-testid="notif-popover">
+        <div className="px-4 py-3 border-b border-white/8 flex items-center justify-between">
+          <div>
+            <div className="font-display text-sm font-semibold">Notifications</div>
+            <div className="font-mono-ui text-[9px] text-white/45">{NOTIFS.length} RECENT</div>
+          </div>
+          <button className="text-[11px] text-[#2DD4BF] hover:text-white transition" data-testid="notif-mark-all">Mark all read</button>
+        </div>
+        <div className="max-h-96 overflow-y-auto">
+          {NOTIFS.map((n, i) => (
+            <div key={i} className="flex items-start gap-3 p-3 border-b border-white/5 hover:bg-white/[0.03] transition" data-testid={`notif-popover-item-${i}`}>
+              <span className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${n.color}18` }}>
+                <n.icon size={14} style={{ color: n.color }} />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="font-mono-ui text-[9px]" style={{ color: n.color }}>{n.cat.toUpperCase()}</div>
+                <div className="text-xs text-white/85 truncate mt-0.5">{n.title}</div>
+                <div className="text-[10px] text-white/40 mt-0.5">{n.t}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button className="w-full py-2.5 text-[11px] text-white/60 hover:text-white hover:bg-white/[0.03] transition border-t border-white/8" data-testid="notif-view-all">View all notifications →</button>
+      </div>
+    </>
+  );
+}
+
 function TopBar() {
+  const { theme, toggle } = useTheme();
+  const [notifOpen, setNotifOpen] = useState(false);
   return (
     <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#06080D]/80 border-b border-white/8">
       <div className="max-w-[1500px] mx-auto px-6 h-14 flex items-center gap-4">
-        <Link to="/" className="flex items-center gap-2.5" data-testid="dashboard-brand">
-          <span className="w-8 h-8 rounded-xl bg-[#0b1220] border border-white/10 flex items-center justify-center">
-            <Building2 size={14} className="text-[#2DD4BF]" />
-          </span>
-          <span className="font-display text-base font-semibold">BMS</span>
-          <span className="font-mono-ui text-[10px] text-white/40 hidden md:inline">· SOC · OVERVIEW</span>
+        <Link to="/" className="flex items-center gap-2" data-testid="dashboard-brand">
+          <BMSLogo size={28} />
+          <span className="font-mono-ui text-[10px] text-white/40 hidden md:inline ml-1">· SOC · OVERVIEW</span>
         </Link>
         <div className="flex-1 max-w-xl mx-auto relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
@@ -144,10 +202,16 @@ function TopBar() {
           <span className="absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] font-mono-ui text-white/40">⌘K</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <button data-testid="notifications-btn" className="relative w-9 h-9 rounded-xl bg-white/[0.03] border border-white/8 flex items-center justify-center hover:bg-white/[0.06] transition">
-            <Bell size={14} className="text-white/80" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#f43f5e] text-[9px] font-mono-ui text-white flex items-center justify-center">5</span>
+          <button onClick={toggle} data-testid="theme-toggle" title={theme === "dark" ? "Switch to light" : "Switch to dark"} className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/8 flex items-center justify-center hover:bg-white/[0.06] transition">
+            {theme === "dark" ? <Sun size={14} className="text-[#f59e0b]" /> : <Moon size={14} className="text-[#3B82F6]" />}
           </button>
+          <div className="relative">
+            <button onClick={() => setNotifOpen(!notifOpen)} data-testid="notifications-btn" className="relative w-9 h-9 rounded-xl bg-white/[0.03] border border-white/8 flex items-center justify-center hover:bg-white/[0.06] transition">
+              <Bell size={14} className="text-white/80" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#f43f5e] text-[9px] font-mono-ui text-white flex items-center justify-center">5</span>
+            </button>
+            <NotifPopover open={notifOpen} onClose={() => setNotifOpen(false)} />
+          </div>
           <div className="flex items-center gap-2 pl-2 pr-3 h-9 rounded-xl bg-white/[0.03] border border-white/8">
             <span className="w-6 h-6 rounded-full bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6]" />
             <span className="text-xs text-white/80 hidden sm:inline">Alex · Super Admin</span>
@@ -483,18 +547,23 @@ function NewIncidentDrawer({ open, onClose }) {
 
 function IncidentsTable({ onOpen }) {
   const [tab, setTab] = useState("All");
+  const [rowsState, setRowsState] = useState(() => INCIDENTS.map(i => ({ ...i, status: i.status === "Investigating" ? "Ongoing" : i.status })));
+  const updateStatus = (id, newStatus) => {
+    setRowsState((rs) => rs.map(r => r.id === id ? { ...r, status: newStatus } : r));
+    toast.success(`${id} → ${newStatus}`);
+  };
   const counts = {
-    All: INCIDENTS.length,
-    Open: INCIDENTS.filter(i => i.status === "Open").length,
-    Investigating: INCIDENTS.filter(i => i.status === "Investigating").length,
-    Resolved: INCIDENTS.filter(i => i.status === "Resolved").length,
-    Critical: INCIDENTS.filter(i => i.sev === "Critical").length,
+    All: rowsState.length,
+    Open: rowsState.filter(i => i.status === "Open").length,
+    Ongoing: rowsState.filter(i => i.status === "Ongoing").length,
+    Resolved: rowsState.filter(i => i.status === "Resolved").length,
+    Critical: rowsState.filter(i => i.sev === "Critical").length,
   };
   const rows = useMemo(() => {
-    if (tab === "All") return INCIDENTS;
-    if (tab === "Critical") return INCIDENTS.filter(i => i.sev === "Critical");
-    return INCIDENTS.filter(i => i.status === tab);
-  }, [tab]);
+    if (tab === "All") return rowsState;
+    if (tab === "Critical") return rowsState.filter(i => i.sev === "Critical");
+    return rowsState.filter(i => i.status === tab);
+  }, [tab, rowsState]);
 
   return (
     <div className="glass rounded-[16px] overflow-hidden" data-testid="incidents-table">
@@ -540,7 +609,9 @@ function IncidentsTable({ onOpen }) {
                 <td className="px-5 py-3.5 text-white/60 text-xs">{r.zone}</td>
                 <td className="px-5 py-3.5"><SeverityBadge level={r.sev} /></td>
                 <td className="px-5 py-3.5 text-white/70 text-xs">{r.to}</td>
-                <td className="px-5 py-3.5"><StatusPill status={r.status} /></td>
+                <td className="px-5 py-3.5" onClick={(e) => e.stopPropagation()}>
+                  <InlineStatusSelect value={r.status} onChange={(v) => updateStatus(r.id, v)} id={r.id.toLowerCase()} />
+                </td>
                 <td className="px-5 py-3.5 text-right"><ChevronRight size={14} className="text-white/30 inline" /></td>
               </tr>
             ))}

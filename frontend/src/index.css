@@ -36,7 +36,59 @@ body {
     radial-gradient(1000px 500px at 90% 10%, rgba(59, 130, 246, 0.05), transparent 60%),
     radial-gradient(900px 500px at 50% 110%, rgba(139, 92, 246, 0.04), transparent 60%);
   background-attachment: fixed;
+  transition: background-color 300ms ease;
 }
+
+/* ---------- LIGHT THEME ---------- */
+body.light {
+  background-color: #F6F7F9;
+  color: #0B1220;
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, rgba(45, 212, 191, 0.10), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(59, 130, 246, 0.08), transparent 60%);
+}
+body.light .glass {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px) saturate(140%);
+}
+body.light .glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(15, 23, 42, 0.10);
+}
+body.light .gradient-border::before {
+  background: linear-gradient(135deg, rgba(45,212,191,0.35), rgba(59,130,246,0.20) 40%, rgba(139,92,246,0.25));
+}
+body.light .blueprint-grid,
+body.light .blueprint-grid-tight {
+  background-image:
+    linear-gradient(to right, rgba(15,23,42,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,23,42,0.06) 1px, transparent 1px);
+}
+body.light * { border-color: rgba(15, 23, 42, 0.08); }
+body.light .text-white { color: #0B1220 !important; }
+body.light .text-white\/90, body.light .text-white\/85 { color: #0f172a !important; }
+body.light .text-white\/80 { color: #1e293b !important; }
+body.light .text-white\/70 { color: #334155 !important; }
+body.light .text-white\/60, body.light .text-white\/65 { color: #475569 !important; }
+body.light .text-white\/55, body.light .text-white\/50 { color: #64748b !important; }
+body.light .text-white\/45, body.light .text-white\/40 { color: #94a3b8 !important; }
+body.light .text-white\/35, body.light .text-white\/30 { color: #cbd5e1 !important; }
+body.light .bg-\[\#06080D\] { background-color: #F6F7F9 !important; }
+body.light .bg-\[\#0a0d14\] { background-color: #FFFFFF !important; }
+body.light .bg-\[\#07090F\]\/95 { background-color: rgba(255,255,255,0.92) !important; }
+body.light .bg-\[\#06080D\]\/80 { background-color: rgba(246,247,249,0.85) !important; }
+body.light .bg-\[\#0b1220\] { background-color: #EEF2F7 !important; }
+body.light .bg-white\/\[0\.03\], body.light .bg-white\/\[0\.04\] { background-color: rgba(15,23,42,0.04) !important; }
+body.light .bg-white\/\[0\.02\] { background-color: rgba(15,23,42,0.025) !important; }
+body.light .bg-white\/5 { background-color: rgba(15,23,42,0.05) !important; }
+body.light .bg-white\/10 { background-color: rgba(15,23,42,0.08) !important; }
+body.light .hover\:bg-white\/5:hover { background-color: rgba(15,23,42,0.05) !important; }
+body.light .hover\:bg-white\/10:hover { background-color: rgba(15,23,42,0.08) !important; }
+body.light .hover\:bg-white\/\[0\.06\]:hover, body.light .hover\:bg-white\/\[0\.07\]:hover { background-color: rgba(15,23,42,0.06) !important; }
+body.light .border-white\/8, body.light .border-white\/10, body.light .border-white\/12, body.light .border-white\/6, body.light .border-white\/5 { border-color: rgba(15,23,42,0.10) !important; }
+body.light ::-webkit-scrollbar-track { background: #F6F7F9; }
+body.light ::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.12); }
 
 .font-display {
   font-family: "Mona Sans", "Inter", sans-serif;

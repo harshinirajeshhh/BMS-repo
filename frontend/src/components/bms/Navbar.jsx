@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import BMSLogo from "../BMSLogo";
 import { useDemoDialog } from "../../pages/BMSLanding";
 
 const NAV = [
@@ -23,11 +23,8 @@ export default function Navbar() {
       data-testid="site-navbar"
     >
       <nav className="glass-strong rounded-full pl-3 pr-3 py-2 flex items-center justify-between gradient-border">
-        <a href="#top" className="flex items-center gap-2.5 pl-2" data-testid="brand-logo">
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6] glow-teal">
-            <Building2 size={16} className="text-[#06080D]" strokeWidth={2.5} />
-          </span>
-          <span className="font-display text-lg font-semibold tracking-tight">BMS</span>
+        <a href="#top" className="flex items-center pl-2" data-testid="brand-logo">
+          <BMSLogo size={30} />
         </a>
         <div className="hidden md:flex items-center gap-1">
           {NAV.map((item) => (

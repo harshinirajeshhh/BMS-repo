@@ -1,5 +1,7 @@
 import React from "react";
-import { Building2, Github, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Github, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
+import BMSLogo from "../BMSLogo";
 
 const COLS = [
   {
@@ -26,12 +28,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 md:gap-10">
           <div className="col-span-2">
-            <div className="flex items-center gap-2.5">
-              <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2DD4BF] to-[#3B82F6] flex items-center justify-center">
-                <Building2 size={18} className="text-[#06080D]" />
-              </span>
-              <span className="font-display text-xl font-semibold">BMS</span>
-            </div>
+            <Link to="/" className="flex items-center gap-2.5" data-testid="footer-brand">
+            <BMSLogo size={32} />
+          </Link>
             <p className="mt-4 text-sm text-white/55 max-w-xs">
               The intelligent operating system for the world&apos;s smartest buildings.
             </p>
